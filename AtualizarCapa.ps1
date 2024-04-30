@@ -65,7 +65,7 @@ function SelecionarDiretorio {
     '2' {return 'Projetos finalizados II'}
     '3' {return 'Viseu Criação\Projetos'}
     default {
-      White-Host "Opção inválida. Tente novamente."
+      Write-Host "Opção inválida. Tente novamente."
       return SelecionarDiretorio
     }
   }
