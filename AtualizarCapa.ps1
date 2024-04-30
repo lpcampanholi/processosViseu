@@ -1,4 +1,4 @@
-function CopiarArquivosAntigos {
+﻿function CopiarArquivosAntigos {
   param($NomeDoAutor, $NomeDoLivro, $Diretorio)
 
   #Copiar Livro
@@ -51,6 +51,7 @@ function SalvarArquivosAtualizados {
   
 }
 
+
 function SelecionarDiretorio {
 
   Write-Host "Selecione o caminho para o projeto:"
@@ -70,12 +71,13 @@ function SelecionarDiretorio {
   }
 }
 
+
 $Diretorio = SelecionarDiretorio
-$NomeDoAutor = Read-Host "Insira o nome do autor"
-$NomeDoLivro = Read-Host "Insira o nome do livro"
+$NomeDoAutor = Read-Host "Nome do Autor"
+$NomeDoLivro = Read-Host "Nome do Livro"
 
 CopiarArquivosAntigos -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio
 
 $PastaCapaNova = Read-Host "Insira o nome da Pasta da Capa Nova"
 
-SalvarCapasAtualizadas -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio -PastaCapaNova $PastaCapaNova
+SalvarArquivosAtualizados -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio -PastaCapaNova $PastaCapaNova
