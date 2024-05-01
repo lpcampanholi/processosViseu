@@ -51,7 +51,6 @@ function SalvarArquivosAtualizados {
   
 }
 
-
 function SelecionarDiretorio {
 
   Write-Host "Selecione o caminho para o projeto:"
@@ -61,16 +60,15 @@ function SelecionarDiretorio {
 
   $opcao = Read-Host "Digite o número da opção escolhida (1-3)"
   switch ($opcao) {
-    '1' {return 'Projetos finalizados I'}
-    '2' {return 'Projetos finalizados II'}
-    '3' {return 'Viseu Criação\Projetos'}
+    '1' { return 'Projetos finalizados I' }
+    '2' { return 'Projetos finalizados II' }
+    '3' { return 'Viseu Criação\Projetos' }
     default {
       Write-Host "Opção inválida. Tente novamente."
       return SelecionarDiretorio
     }
   }
 }
-
 
 $Diretorio = SelecionarDiretorio
 $NomeDoAutor = Read-Host "Nome do Autor"
