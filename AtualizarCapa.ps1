@@ -1,22 +1,22 @@
 ﻿function CopiarArquivosAntigos {
   param($NomeDoAutor, $NomeDoLivro, $Diretorio)
 
-  #Copiar Livro
+  Write-Host "Copiando Arquivos do Drive..."
   Copy-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
 
-  #Copiar Gabarito de Capa 14x21
+  Write-Host "Copiando Gabarito de Capa 14x21"
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_14x21cm_2023 Folder\Gabarito_Capa_14x21cm.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  #Copiar Gabarito de Capa 16x23
+  Write-Host "Copiando Gabarito de Capa 16x23"
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_16x23cm_2023 Folder\Gabarito_Capa_16x23cm_2023.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  #Abre Pasta do Livro em "Desktop"
+  White-Host "Abrindo Pasta do Livro em Desktop"
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  #Abre Gabarito 14x21
+  Write-Host "Abrindo Gabarito 14x21"
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_14x21cm.indd"
 
-  #Abre os arquivos .ai
+  Write-Host "Abrindo arquivos .ai"
   Get-ChildItem -Path C:\Users\Viseu\Desktop\$NomeDoLivro -Filter "*.ai" -File | ForEach-Object {
     Invoke-Item $_.FullName
   }
