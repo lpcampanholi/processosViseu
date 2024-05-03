@@ -41,18 +41,18 @@ function SalvarArquivosAtualizados {
   param($NomeDoAutor, $NomeDoLivro, $Diretorio, $PastaCapaNova)
   
   #Criar pasta "_Descarte" em "_Físico" se não existir
-  if (-not (Teste-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte")) {
+  if (-not (Test-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte")) {
     New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico"
   }
 
-  #Mover arquivos não indd para "_Descarte" 
-  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -File | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
+  #Mover arquivos não indd para "_Descarte"
+  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
 
   #Copiar pasta da capa nova para o Drive em "_Físico"
   Copy-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -Recurse
 
   #Criar pasta "_Descarte" em "_Impressão" se não existir
-  if (-not (Teste-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão\_Descarte)) {
+  if (-not (Test-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão\_Descarte")) {
     New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão"
   }
 
