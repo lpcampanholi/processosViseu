@@ -1,22 +1,28 @@
 ﻿function CopiarArquivosAntigos {
   param($NomeDoAutor, $NomeDoLivro, $Diretorio)
 
+  # Verifica se a pasta _Fisico existe e corrige para _Físico
+
+  if (Test-Path -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -PathType Container) {
+    # Renomeia a pasta para _Físico
+    Rename-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -NewName "_Físico" -Force
+
   Write-Host "Copiando Arquivos do Drive..."
   Copy-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
 
-  Write-Host "Copiando Gabarito de Capa 14x21"
+  Write-Host "Copiando Gabarito de Capa 14x21..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_14x21cm_2023 Folder\Gabarito_Capa_14x21cm.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  Write-Host "Copiando Gabarito de Capa 16x23"
+  Write-Host "Copiando Gabarito de Capa 16x23..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_16x23cm_2023 Folder\Gabarito_Capa_16x23cm_2023.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  White-Host "Abrindo Pasta do Livro em Desktop"
+  Write-Host "Abrindo Pasta do Livro em Desktop..."
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro"
 
-  Write-Host "Abrindo Gabarito 14x21"
+  Write-Host "Abrindo Gabarito 14x21..."
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_14x21cm.indd"
 
-  Write-Host "Abrindo arquivos .ai"
+  Write-Host "Abrindo arquivos .ai..."
   Get-ChildItem -Path C:\Users\Viseu\Desktop\$NomeDoLivro -Filter "*.ai" -File | ForEach-Object {
     Invoke-Item $_.FullName
   }
