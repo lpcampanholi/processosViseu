@@ -2,14 +2,14 @@
   param($NomeDoAutor, $NomeDoLivro, $Diretorio, $Formato)
 
   # Verifica se a pasta _Fisico existe
-  if (Test-Path -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -PathType Container) {
+  if (Test-Path -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -PathType Container) {
     # Renomeia a pasta para _Físico
-    Rename-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -NewName "_Físico" -Force
+    Rename-Item -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -NewName "_Físico" -Force
     Write-Host "Pasta _Fisico renomeada para _Físico."
   }
 
   Write-Host "Copiando Arquivos do Drive..."
-  Copy-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
+  Copy-Item -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
 
   if ($Formato -eq '140x210') {
   Write-Host "Copiando Gabarito de Capa 140x210..."
@@ -40,26 +40,30 @@ function SalvarArquivosAtualizados {
   
   param($NomeDoAutor, $NomeDoLivro, $Diretorio, $PastaCapaNova)
   
-  #Criar pasta "_Descarte" em "_Físico"
-  New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico"
+  #Criar pasta "_Descarte" em "_Físico" se não existir
+  if (-not (Teste-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte")) {
+    New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico"
+  }
 
-  #Mover arquivos para pasta "_Descarte" 
-  Get-ChildItem -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
+  #Mover arquivos não indd para "_Descarte" 
+  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -File | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
 
   #Copiar pasta da capa nova para o Drive em "_Físico"
-  Copy-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Destination "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -Recurse
+  Copy-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -Recurse
 
-  #Criar pasta "_Descarte" em "_Impressão"
-  New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão"
+  #Criar pasta "_Descarte" em "_Impressão" se não existir
+  if (-not (Teste-Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão\_Descarte)) {
+    New-Item -ItemType Directory -Name "_Descarte" -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão"
+  }
 
   #Mover capa antiga para pasta "_Descarte" em "_Impressão"
-  Get-ChildItem -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão" -File | Where-Object { $_.Name -match "capa" } | Move-Item -Destination "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão\_Descarte"
+  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão" -File | Where-Object { $_.Name -match "capa" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão\_Descarte"
 
   #Copia nova capa para o Drive em "_Impressão"
-  Get-ChildItem -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Filter "*.pdf" -Recurse | Copy-Item -Destination "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão"
+  Get-ChildItem -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Filter "*.pdf" -Recurse | Copy-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Impressão"
 
   #Abre pasta "_Físico" do Drive para Conferir
-  Invoke-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico"
+  Invoke-Item -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico"
   
 }
 
