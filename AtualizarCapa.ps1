@@ -46,7 +46,7 @@ function SalvarArquivosAtualizados {
   }
 
   #Mover arquivos não indd para "_Descarte"
-  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
+  Get-ChildItem -Path "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -Recurse | Where-Object { $_.FullName -notlike "*\_Descarte\*" -and $_.Extension -ne ".indd" } | Move-Item -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\_Descarte"
 
   #Copiar pasta da capa nova para o Drive em "_Físico"
   Copy-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\$pastaCapaNova" -Destination "G:\Drives compartilhados\$Diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico" -Recurse
