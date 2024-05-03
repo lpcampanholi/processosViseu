@@ -1,0 +1,21 @@
+$sourcePath = "C:\path\to\source"
+$destinationPath = "C:\path\to\destination"
+$files = Get-ChildItem -Path $sourcePath
+
+$totalFiles = $files.Count
+$fileCounter = 0
+
+foreach ($file in $files) {
+    $fileCounter++
+    $status = "Copiando {0} de {1}: {2}" -f $fileCounter, $totalFiles, $file.Name
+    Write-Progress -Activity "Copiando arquivos" -Status $status -PercentComplete (($fileCounter / $totalFiles) * 100)
+
+    Copy-Item -Path $file.FullName -Destination $destinationPath
+    
+    # Simula uma pausa para visualizar o progresso; remova ou ajuste conforme necessário
+    Start-Sleep -Seconds 1
+}
+
+# Indicando a conclusão do processo
+Write-Progress -Activity "Copiando arquivos" -Status "Cópia completada" -PercentComplete 100 -SecondsRemaining 0
+Write-Host "Cópia completada."
