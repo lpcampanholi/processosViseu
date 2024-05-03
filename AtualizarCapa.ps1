@@ -1,26 +1,32 @@
 ﻿function CopiarArquivosAntigos {
-  param($NomeDoAutor, $NomeDoLivro, $Diretorio)
+  param($NomeDoAutor, $NomeDoLivro, $Diretorio, $Formato)
 
-  # Verifica se a pasta _Fisico existe e corrige para _Físico
-
+  # Verifica se a pasta _Fisico existe
   if (Test-Path -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -PathType Container) {
     # Renomeia a pasta para _Físico
     Rename-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Fisico\" -NewName "_Físico" -Force
+    Write-Host "Pasta _Fisico renomeada para _Físico."
+  }
 
   Write-Host "Copiando Arquivos do Drive..."
   Copy-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
 
-  Write-Host "Copiando Gabarito de Capa 14x21..."
+  if ($Formato = '140x210') {
+  Write-Host "Copiando Gabarito de Capa 140x210..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_14x21cm_2023 Folder\Gabarito_Capa_14x21cm.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
+  Write-Host "Abrindo Gabarito 140x210..."
+  Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_14x21cm.indd"
+}
 
-  Write-Host "Copiando Gabarito de Capa 16x23..."
+  if ($Formato = '160x230') {
+  Write-Host "Copiando Gabarito de Capa 160x230..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_16x23cm_2023 Folder\Gabarito_Capa_16x23cm_2023.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
+  Write-Host "Abrindo Gabarito 160x230..."
+  Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_16x23cm_2023.indd"
+}
 
   Write-Host "Abrindo Pasta do Livro em Desktop..."
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro"
-
-  Write-Host "Abrindo Gabarito 14x21..."
-  Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_14x21cm.indd"
 
   Write-Host "Abrindo arquivos .ai..."
   Get-ChildItem -Path C:\Users\Viseu\Desktop\$NomeDoLivro -Filter "*.ai" -File | ForEach-Object {
@@ -57,6 +63,7 @@ function SalvarArquivosAtualizados {
   
 }
 
+
 function SelecionarDiretorio {
 
   Write-Host "Selecione o caminho para o projeto:"
@@ -76,12 +83,33 @@ function SelecionarDiretorio {
   }
 }
 
+
+function SelecionarFormato {
+
+  Write-Host "Selecione o formato do projeto:"
+  Write-Host "1: 140x210"
+  Write-Host "2: 160x230"
+  
+  $opcao = Read-Host "Digite o número da opção escolhida (1-2)"
+  switch ($opcao) {
+    '1' { return '140x210' }
+    '2' { return '160x230' }
+    default {
+      Write-Host "Opção inválida. Tente novamente."
+      return SelecionarFormato
+    }
+  }
+}
+
+
 $Diretorio = SelecionarDiretorio
+$Formato = SelecionarFormato
 $NomeDoAutor = Read-Host "Nome do Autor"
 $NomeDoLivro = Read-Host "Nome do Livro"
 
-CopiarArquivosAntigos -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio
+CopiarArquivosAntigos -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio -Formato $Formato
 
+Write-Host "ATUALIZE A CAPA"
 $PastaCapaNova = Read-Host "Insira o nome da Pasta da Capa Nova"
 
 SalvarArquivosAtualizados -NomeDoAutor $NomeDoAutor -NomeDoLivro $NomeDoLivro -Diretorio $Diretorio -PastaCapaNova $PastaCapaNova
