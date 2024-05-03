@@ -11,14 +11,14 @@
   Write-Host "Copiando Arquivos do Drive..."
   Copy-Item -Path "G:\Drives compartilhados\$diretorio\$NomeDoAutor\$NomeDoLivro\_Arte\_Físico\" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro" -Recurse
 
-  if ($Formato = '140x210') {
+  if ($Formato -eq '140x210') {
   Write-Host "Copiando Gabarito de Capa 140x210..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_14x21cm_2023 Folder\Gabarito_Capa_14x21cm.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
   Write-Host "Abrindo Gabarito 140x210..."
   Invoke-Item -Path "C:\Users\Viseu\Desktop\$NomeDoLivro\Gabarito_Capa_14x21cm.indd"
 }
 
-  if ($Formato = '160x230') {
+  if ($Formato -eq '160x230') {
   Write-Host "Copiando Gabarito de Capa 160x230..."
   Copy-Item -Path "G:\Meu Drive\_Gabaritos Capa\Gabarito_Capa_16x23cm_2023 Folder\Gabarito_Capa_16x23cm_2023.indd" -Destination "C:\Users\Viseu\Desktop\$NomeDoLivro"
   Write-Host "Abrindo Gabarito 160x230..."
